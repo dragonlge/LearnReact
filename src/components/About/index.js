@@ -24,29 +24,47 @@ function About(props) {
   console.log('about', url)
   console.log('about', path)
   const [state, setState] = useState({
-    rawData: json,
     data: pageData({ data: json }),
     loading: false,
     page: 1,
     sortedBy: { first_name: 'ascending' },
   })
   useEffect(() => {
-    console.dir('SORT!')
     if (!state.sortedBy) return
     const sortKey = Object.keys(state.sortedBy)[0]
     const direction = state.sortedBy[sortKey]
 
     setState((prev) => ({
       ...prev,
-      rawData: prev.rawData.sort((a, b) => {
-        return direction === 'ascending'
-          ? a[sortKey] > b[sortKey]
-          : a[sortKey] < b[sortKey]
-        // Object.keys(a.sortedBy)[0] > Object.keys(b.sortedBy)[0]
+      data: prev.data.sort((a, b) => {
+        if (direction === 'ascending') {
+          if (a[sortKey] > b[sortKey]) {
+            return -1
+          } else {
+            return 1
+          }
+        }
+        if (direction === 'descending') {
+          if (a[sortKey] > b[sortKey]) {
+            return 1
+          } else {
+            return -1
+          }
+        }
+        //firefox worked
+        // return direction === 'ascending'
+        //   ? a[sortKey] > b[sortKey]
+        //   : a[sortKey] < b[sortKey]
+
+        //   direction === 'ascending'
+        //     ? a[sortKey] > b[sortKey]
+        //     : a[sortKey] < b[sortKey]
+
+        // return retData
       }),
     }))
+    debugger
   }, [state.sortedBy])
-
   // const [people, setPeople] = useState(pageData(json))
   // const [loading, setLoading] = useState(false)
 
@@ -58,10 +76,7 @@ function About(props) {
       loading: true,
     }))
     setState((prev) => ({
-      data: [
-        ...prev.data,
-        ...pageData({ data: state.rawData, page: prev.page + 1 }),
-      ],
+      data: [...prev.data, ...pageData({ data: json, page: prev.page + 1 })],
       loading: false,
       page: prev.page + 1,
     }))
@@ -71,13 +86,19 @@ function About(props) {
       <>
         <TableHeadRow />
 
-        <TableHeadRow label='ID' />
+        <TableHeadRow
+          label='ID'
+          sortedBy={state.sortedBy}
+          sort={{ key: 'id', changer: setState }}
+        />
+
         <TableHeadRow
           // sortable
           label='First Name'
           sortedBy={state.sortedBy}
           sort={{ key: 'first_name', changer: setState }}
         />
+
         <TableHeadRow
           sortedBy={state.sortedBy}
           label='Last Name'
