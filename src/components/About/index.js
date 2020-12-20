@@ -13,6 +13,7 @@ import TableCell from '../DataTable/TableCell'
 import ExpanderButton from '../DataTable/ExpanderButton'
 import TableCellExpander from '../DataTable/TableCellExpander'
 import TableRows from '../DataTable/TableRows'
+import TextField from '../DataTable/TextField/TextField'
 
 function pageData({ data, per = 50, page = 1 }) {
   return data.slice(per * (page - 1), per * page)
@@ -20,11 +21,14 @@ function pageData({ data, per = 50, page = 1 }) {
 
 function About(props) {
   const { url, path } = useRouteMatch()
+  const [query, setQuery] = useState('')
+  const searchableColumns = ['first_name', 'last_name', 'email']
   // console.log(json)
   console.log('about', url)
   console.log('about', path)
   const [state, setState] = useState({
     data: pageData({ data: json }),
+    
     loading: false,
     page: 1,
     sortedBy: { first_name: 'ascending' },
@@ -45,10 +49,10 @@ function About(props) {
           }
         }
         if (direction === 'descending') {
-          if (a[sortKey] > b[sortKey]) {
-            return 1
-          } else {
+          if (a[sortKey] < b[sortKey]) {
             return -1
+          } else {
+            return 1
           }
         }
         //firefox worked
@@ -63,11 +67,23 @@ function About(props) {
         // return retData
       }),
     }))
-    debugger
   }, [state.sortedBy])
+
+  useEffect(() => {
+    setState((prev) => ({
+      data: search(json),
+    }))
+  }, [query])
   // const [people, setPeople] = useState(pageData(json))
   // const [loading, setLoading] = useState(false)
-
+  function search(data) {
+    return data.filter((row) =>
+      searchableColumns.some(
+        (column) =>
+          row[column].toString().toLowerCase().indexOf(query.toLowerCase()) > -1
+      )
+    )
+  }
   function loadMore() {
     console.dir('LOAD MORE')
     if (state.loading) return
@@ -148,6 +164,11 @@ function About(props) {
     <div className=''>
       <h1>Usage of DataTable</h1>
       <div>
+        <TextField
+          placeholder='Type here to filter results'
+          value={query}
+          onChange={(val) => setQuery(val)}
+        />
         <DataTable
           noTableHead
           data={state.data}
