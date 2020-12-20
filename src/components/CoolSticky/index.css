@@ -1,0 +1,50 @@
+/* *{
+ box-sizing: border-box;
+}
+body{
+ margin: 0 0 1000px !important;
+ line-height: 1.6 !important;
+}
+h1{
+ background: yellow;
+ font-size: 5rem;
+ text-align: center;
+ font-family: cursive;
+ margin: 0 0 5vh;
+ padding: 5vh 0;
+ color: black;
+ 
+}
+h1 small{
+    display: block;
+   font-size:1.5rem;
+   opacity: .6;
+   line-height:1;
+   letter-spacing:2px;
+   color: black;
+}
+.box{
+ width: 70%;
+ max-width: 600px;
+ margin: 0 auto;
+ border: 2px solid black;
+}
+.box-content{
+ background: white;
+ padding: 2em;
+ color: black;
+}
+.hello-there{
+ background: red;
+ padding:1em;
+ margin:0 auto;
+ width: 75%;
+ font-size: 1.5em;
+ color: white;
+ font-weight: bold;
+ text-align: center;
+ position: sticky;
+ bottom: 100px;
+ z-index: -1;
+
+} */

@@ -1,0 +1,31 @@
+.aboutFlexBox{
+ display: flex;
+ justify-content: space-between;
+ width: 100%;
+ max-width: 800px;
+ height: 100vh;
+ overflow: hidden;
+ margin: 0 auto;
+ padding: 15px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.aboutFlexBox .board{
+ display: flex;
+flex-direction: column;
+max-width: 300px;
+background-color: green;
+padding: 15px;
+width: 100%;
+margin: 2rem;
+}
+.aboutFlexBox .board .card{
+ padding: 15px 25px;
+ background-color: aqua;
+ cursor: pointer;
+ margin-bottom: 15px;
+}
